@@ -5,6 +5,8 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {Constants} from '../shared/models/constants';
 import {URLSearchParams} from '@angular/http';
+import {PairListOptions } from '../controls/pair-list/pair-list.component';
+import {Validators, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -19,6 +21,12 @@ export class RunHttpComponent {
     model: HttpRunModel = new HttpRunModel();
     valid: boolean;
     availableMethods: string[] = [];
+    headerOptions: PairListOptions;
+    paramsOptions: PairListOptions;
+    private _code: Param;
+    private _headersValid: boolean;
+    private _paramsValid: boolean;
+
 
     constructor(private _translateService: TranslateService) {
     }
@@ -67,12 +75,19 @@ export class RunHttpComponent {
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
         }
-        this.paramChanged();
+
     }
 
     set functionInvokeUrl(value: string) {
         if (value) {
+            // Store "code" aithentication parameter 
             var params = this.getQueryParams(value);
+            var codeIndex = params.findIndex(p => (p.name.toLowerCase() === "code"));
+            if (codeIndex > -1) {
+                this._code = params[codeIndex];
+                params.splice(codeIndex, 1);
+            }
+
             var pathParams = this.getPathParams(value);
             params = pathParams.concat(params);
             params.forEach((p) => {
@@ -85,55 +100,42 @@ export class RunHttpComponent {
                 }
             });
         }
-        this.paramChanged();
+        this.headerOptions = {
+            items: this.model.headers,
+            nameValidators: [Validators.required, Validators.pattern("^[a-zA-Z0-9\-]+$")]
+        };
+
+        this.paramsOptions = {
+            items: this.model.queryStringParams,
+            nameValidators: [Validators.required, Validators.pattern("^[a-zA-Z0-9\-]+$")]
+        };
+
     }
 
-    removeQueryStringParam(index: number) {
-        this.model.queryStringParams.splice(index, 1);
-        this.paramChanged();
-    }
-
-    removeHeader(index: number) {
-        this.model.headers.splice(index, 1);
-        this.paramChanged();
-    }
-
-    addQueryStringParam() {
-        this.model.queryStringParams.push(
-            {
-                name: "",
-                value: "",
-            });
-        this.paramChanged();
-    }
-
-    addHeader() {
-        this.model.headers.push(
-            {
-                name: "",
-                value: "",
-            });
-        this.paramChanged();
-    }
-
-    paramChanged(event?: any) {
-        // iterate all params and set valid property depends of params name
-
-        var regex = new RegExp("^$|[^A-Za-z0-9]");
-        this.valid = true;
-        this.model.queryStringParams.concat(this.model.headers).forEach((item => {
-            item.valid = !regex.test(item.name);
-            this.valid = item.valid && this.valid;
-        }));
-
-        this.validChange.emit(this.valid);
-    }
 
     onChangeMethod(method: string) {
         this.disableTestData.emit((method.toLowerCase() === 'get' ||
             method.toLowerCase() === 'delete' ||
             method.toLowerCase() === 'head' ||
             method.toLowerCase() === 'options'));
+    }
+
+    headerValueChanges(form: FormGroup) {
+        this._headersValid = form.valid;
+        this.valid = this._paramsValid && this._headersValid;
+        this.model.headers = form.value.items;
+        this.validChange.emit(this.valid);
+    }
+
+    paramsValueChanges(form: FormGroup) {
+        this._paramsValid = form.valid;
+        this.valid = this._paramsValid && this._headersValid;
+        this.model.queryStringParams = form.value.items;
+        if (this._code) {
+            this.model.queryStringParams.push(this._code);
+        }
+
+        this.validChange.emit(this.valid);
     }
 
     private getQueryParams(url: string): Param[] {
@@ -158,8 +160,7 @@ export class RunHttpComponent {
                 value.forEach((v) => {
                     result.push({
                         name: decodeURIComponent(key),
-                        value: decodeURIComponent(v),
-                        isFixed: true
+                        value: decodeURIComponent(v)
                     });
                 });
             });
@@ -179,8 +180,7 @@ export class RunHttpComponent {
                 var splitResult = m.split(":");
                 result.push({
                     name: splitResult[0].replace("{", "").replace("}", ""),
-                    value: "",
-                    isFixed: false
+                    value: ""
                 });
             });
         }
