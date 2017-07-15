@@ -91,8 +91,8 @@ import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.compon
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
 import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
-import { ApiDetailsComponent } from './api-details/api-details.component';
-import { ApiNewComponent } from './api-new/api-new.component';
+import { ApiDetailsComponent } from './api/api-details/api-details.component';
+import { ApiNewComponent } from './api/api-new/api-new.component';
 import { FunctionsListComponent } from './functions-list/functions-list.component';
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
@@ -113,6 +113,7 @@ import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
 import { PairListComponent } from './controls/pair-list/pair-list.component';
+import { RequestResposeOverrideComponent } from './api/request-respose-override/request-respose-override.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -219,7 +220,8 @@ export class AppModule {
     SearchBoxComponent,
     AppSettingComponent,
     DownloadFunctionAppContentComponent,
-    PairListComponent
+    PairListComponent,
+    RequestResposeOverrideComponent
   ],
   imports: [
     FormsModule,

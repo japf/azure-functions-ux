@@ -115,6 +115,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All items selected.
+        /// </summary>
+        internal static string allItemsSelected {
+            get {
+                return ResourceManager.GetString("allItemsSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure Functions Proxies are currently disabled. To enable, visit.
         /// </summary>
         internal static string apiProxies_warningOff {
@@ -202,6 +211,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string apiProxy_new {
             get {
                 return ResourceManager.GetString("apiProxy_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No override.
+        /// </summary>
+        internal static string apiProxy_noOverride {
+            get {
+                return ResourceManager.GetString("apiProxy_noOverride", resourceCulture);
             }
         }
         
@@ -3752,6 +3770,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} items selected.
+        /// </summary>
+        internal static string numItemsSelected {
+            get {
+                return ResourceManager.GetString("numItemsSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Off.
         /// </summary>
         internal static string off {
@@ -3946,6 +3973,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string select {
             get {
                 return ResourceManager.GetString("select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select all.
+        /// </summary>
+        internal static string selectAll {
+            get {
+                return ResourceManager.GetString("selectAll", resourceCulture);
             }
         }
         
@@ -4563,7 +4599,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function.
+        ///   Looks up a localized string similar to Function (preview).
         /// </summary>
         internal static string swaggerDefinition_internal {
             get {
@@ -4736,7 +4772,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API definition (preview).
+        ///   Looks up a localized string similar to API definition.
         /// </summary>
         internal static string tab_api_definition {
             get {
