@@ -58,7 +58,7 @@ app.get('/api/health', (_, res) => {
     res.send('healthy');
 });
 
-app.get('/api/switchtenants/:tenantId', authenticate);
+app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
 
 app.get('/api/templates', maybeAuthenticate, getTemplates);
 app.get('/api/bindingconfig', maybeAuthenticate, getBindingConfig);

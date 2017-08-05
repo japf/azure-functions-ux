@@ -2,7 +2,6 @@ import { Request, Response, NextFunction, Application } from 'express';
 import * as passport from 'passport';
 import * as jwt from 'jsonwebtoken';
 //import * as strategy from 'passport-azure-ad-oauth2';
-import * as uuid4 from 'uuid/v4';
 const strategy = require('passport-azure-ad-oauth2');
 
 import { User, Token } from './types/user';
@@ -33,28 +32,7 @@ export function setupAuthentication(app: Application) {
 }
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
-    if (req.isAuthenticated() && req.path.startsWith('/api/switchtenants/')) {
-        const tenant = req.path.split('/')
-            .filter(s => !!s)
-            .pop();
-        if (tenant) {
-            const url = 'https://login.microsoftonline.com/' +
-                tenant +
-                '/oauth2/authorize' +
-                '?response_type=id_token code' +
-                `&redirect_uri=${constants.authentication.redirectUrl}` +
-                `&client_id=${process.env.AADClientId}` +
-                `&resource=${constants.authentication.resource}` +
-                `&scope=${constants.authentication.scope}` +
-                `&nonce=${uuid4()}` +
-                '&site_id=500879' +
-                `&response_mode=query` +
-                `&state=`;
-            res.redirect(url);
-        } else {
-            next();
-        }
-    } else if (req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         return next();
     }
 

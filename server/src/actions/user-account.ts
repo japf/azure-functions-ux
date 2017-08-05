@@ -1,8 +1,10 @@
 import { User } from './../types/user';
 import { Request, Response } from 'express';
 import axios from 'axios';
+import * as uuid4 from 'uuid/v4';
 
 import { config } from '../config';
+import { constants } from "../constants";
 
 /*
  * TODO: azure getTenants
@@ -31,10 +33,25 @@ export function getTenants(req: Request, res: Response) {
 
 
 export function switchTenant(req: Request, res: Response) {
-    const params: { tenantId: string } = req.params;
-    res.json({
-        name: params.tenantId
-    });
+    const { tenantId } = req.params;
+    if (tenantId) {
+        const url = 'https://login.microsoftonline.com/' + tenantId + '/oauth2/authorize' +
+            '?response_type=id_token code' +
+            `&redirect_uri=${constants.authentication.redirectUrl}` +
+            `&client_id=${process.env.AADClientId}` +
+            `&resource=${constants.authentication.resource}` +
+            `&scope=${constants.authentication.scope}` +
+            // This is just for localhost.
+            // TODO: figure out what tenant switching means for OnPrem.
+            // TODO: investigate using same nonce logic as the adal package.
+            `&nonce=${uuid4()}` +
+            '&site_id=500879' +
+            `&response_mode=query` +
+            `&state=`;
+        res.redirect(url);
+    } else {
+        res.status(400).send('tenantId not specified.');
+    }
 }
 
 export function getToken(req: Request, res: Response) {
