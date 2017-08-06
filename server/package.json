@@ -1,8 +1,25 @@
 {
+  "name": "azure-functions-ux-server",
+  "version": "0.0.0",
   "scripts": {
-    "start": "ts-node .\\src\\server.ts"
+    "watch": "nodemon .\\src\\nodemon.json"
   },
   "dependencies": {
+    "async": "^2.5.0",
+    "axios": "^0.16.2",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-azure-ad": "^3.0.7",
+    "passport-azure-ad-oauth2": "^0.0.4",
+    "pug": "^2.0.0-rc.2",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
     "@types/async": "^2.0.40",
     "@types/axios": "^0.14.0",
     "@types/body-parser": "^1.16.4",
@@ -14,21 +31,9 @@
     "@types/passport": "^0.3.3",
     "@types/pug": "^2.0.4",
     "@types/uuid": "^3.4.0",
-    "async": "^2.5.0",
-    "axios": "^0.16.2",
-    "body-parser": "^1.17.2",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.15.3",
-    "express-session": "^1.15.3",
-    "jsonwebtoken": "^7.4.1",
-    "morgan": "^1.8.2",
+    "concurrently": "^3.5.0",
     "nodemon": "^1.11.0",
-    "passport": "^0.3.2",
-    "passport-azure-ad": "^3.0.7",
-    "passport-azure-ad-oauth2": "^0.0.4",
-    "pug": "^2.0.0-rc.2",
     "ts-node": "^3.1.0",
-    "typescript": "^2.4.1",
-    "uuid": "^3.1.0"
+    "typescript": "^2.4.1"
   }
 }

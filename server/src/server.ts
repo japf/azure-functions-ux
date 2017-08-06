@@ -19,7 +19,6 @@ import {
     getRuntimeVersion,
     getRoutingVersion
 } from './actions/metadata';
-
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 
 

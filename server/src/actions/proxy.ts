@@ -8,14 +8,16 @@ interface ProxyRequest {
     method: string;
     url: string;
 }
+
 export function proxy(req: Request, res: Response) {
     const content = req.body as ProxyRequest;
-    axios.request({
+    const request = {
         method: content.method,
         data: content.body,
         headers: content.headers,
         url: content.url
-    })
+    };
+    axios.request(request)
         .then(r => res.send(r.data))
         .catch(e => {
             res.status(e.status).send(e);

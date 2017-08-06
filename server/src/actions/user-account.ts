@@ -6,9 +6,6 @@ import * as uuid4 from 'uuid/v4';
 import { config } from '../config';
 import { constants } from "../constants";
 
-/*
- * TODO: azure getTenants
- */
 export function getTenants(req: Request, res: Response) {
     const user = req.user as User;
     if (req.url.indexOf('localhost') !== -1) { }
@@ -30,7 +27,6 @@ export function getTenants(req: Request, res: Response) {
         })
         .catch(err => res.status(500).send(err));
 }
-
 
 export function switchTenant(req: Request, res: Response) {
     const { tenantId } = req.params;
